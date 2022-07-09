@@ -1,1 +1,3 @@
-const users = require("./data/users");
+const users = require("../data/users");
+
+

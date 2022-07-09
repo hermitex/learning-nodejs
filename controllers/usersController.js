@@ -25,7 +25,24 @@ async function getUserById(req, res, id) {
   }
 }
 
+async function createUser(req, res) {
+  try {
+    let body = "";
+    req.on("data", (chunk) => (body += chunk.toString()));
+    req.on("end", async () => {
+      const { first_name, city, state, postcode } = JSON.parse(body);
+      const user = { first_name, city, state, postcode };
+      let newUser = await User.create(user);
+      res.writeHead(201, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify(newUser));
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUserById,
+  createUser,
 };
